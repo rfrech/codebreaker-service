@@ -23,12 +23,13 @@ import org.springframework.lang.NonNull;
 
 @SuppressWarnings("JpaDataSourceORMInspection")
 @Entity
-@Table(indexes = {
-    @Index(columnList = "created"),
-    @Index(columnList = "connected")
-}
+@Table(
+    name = "user_profile",
+    indexes = {
+        @Index(columnList = "created"),
+        @Index(columnList = "connected")
+    }
 )
-
 public class User {
 
   @NonNull
@@ -36,7 +37,7 @@ public class User {
   @GeneratedValue(generator = "uuid2")
   @GenericGenerator(name = "uuid2", strategy = "uuid2")
   @Column(name = "user_id", nullable = false, updatable = false,
-    columnDefinition = "CHAR(16) FOR BIT DATA")
+      columnDefinition = "CHAR(16) FOR BIT DATA")
   private UUID id;
 
   @NonNull
@@ -60,7 +61,7 @@ public class User {
 
   @NonNull
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "originator", cascade = CascadeType.ALL,
-    orphanRemoval = true)
+      orphanRemoval = true)
   @OrderBy("started DESC")
   private final List<Match> matchesOriginated = new LinkedList<>();
 
@@ -68,7 +69,7 @@ public class User {
   @OneToMany(mappedBy = "winner", fetch = FetchType.LAZY,
       cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
   @OrderBy("deadline DESC")
-  private final List<Match> matchesWon= new LinkedList<>();
+  private final List<Match> matchesWon = new LinkedList<>();
 
   @NonNull
   @ManyToMany(mappedBy = "players", fetch = FetchType.LAZY)
@@ -90,8 +91,8 @@ public class User {
     return oauthKey;
   }
 
-  public void setOauthKey(@NonNull String oAuthKey) {
-    this.oauthKey = oAuthKey;
+  public void setOauthKey(@NonNull String oauthKey) {
+    this.oauthKey = oauthKey;
   }
 
   @NonNull
@@ -126,4 +127,5 @@ public class User {
   public List<Match> getMatches() {
     return matches;
   }
+
 }

@@ -26,6 +26,7 @@ import org.springframework.lang.NonNull;
 @SuppressWarnings("JpaDataSourceORMInspection")
 @Entity
 @Table(
+    name = "tournament",
     indexes = {
         @Index(columnList = "codeLength"),
         @Index(columnList = "gameCount"),
@@ -38,7 +39,7 @@ public class Match {
   @Id
   @GeneratedValue(generator = "uuid2")
   @GenericGenerator(name = "uuid2", strategy = "uuid2")
-  @Column(name = "user_id", nullable = false, updatable = false,
+  @Column(name = "match_id", nullable = false, updatable = false,
       columnDefinition = "CHAR(16) FOR BIT DATA")
   private UUID id;
 
@@ -77,7 +78,7 @@ public class Match {
 
   @NonNull
   @ManyToMany(fetch = FetchType.EAGER,
-  cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+      cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
   @JoinTable(joinColumns = {@JoinColumn(name = "match_id")},
       inverseJoinColumns = {@JoinColumn(name = "user_id")})
   @OrderBy("displayName ASC")
@@ -159,6 +160,7 @@ public class Match {
   }
 
   public enum Criterion {
-    Guesses_TIME, TIME_GUESSES
+    GUESSES_TIME, TIME_GUESSES
   }
+
 }
