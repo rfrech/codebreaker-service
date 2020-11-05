@@ -100,7 +100,7 @@ public class Match {
     return started;
   }
 
-  public int getCodeLength() {
+  public int codeLength() {
     return codeLength;
   }
 
