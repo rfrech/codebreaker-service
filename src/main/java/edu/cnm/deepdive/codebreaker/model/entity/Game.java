@@ -1,5 +1,6 @@
 package edu.cnm.deepdive.codebreaker.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -7,7 +8,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.lang.NonNull;
@@ -21,17 +21,24 @@ public class Game {
   @GeneratedValue(generator = "uuid2")
   @GenericGenerator(name = "uuid2", strategy = "uuid2")
   @Column(name = "game_id", nullable = false, updatable = false,
-    columnDefinition = "CHAR(16) FOR BIT DATA")
+      columnDefinition = "CHAR(16) FOR BIT DATA")
   private UUID id;
 
   @NonNull
   @ManyToOne(fetch = FetchType.EAGER, optional = false)
   @JoinColumn(name = "match_id", nullable = false, updatable = false)
+  @JsonIgnore
   private Match match;
 
   @NonNull
   @Column(nullable = false, updatable = false)
+  @JsonIgnore
   private String code;
+
+  @NonNull
+  public UUID getId() {
+    return id;
+  }
 
   @NonNull
   public Match getMatch() {
@@ -51,10 +58,4 @@ public class Game {
     this.code = code;
   }
 
-  @NonNull
-  public UUID getId() {
-    return id;
-
-
-  }
 }
